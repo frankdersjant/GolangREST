@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	app "example/rest/App"
-	Domain "example/rest/Domain"
+	"example/rest/Domain"
 	"example/rest/Services"
 
 	"github.com/gorilla/mux"
