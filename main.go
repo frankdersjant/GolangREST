@@ -7,7 +7,7 @@ import (
 
 	app "example/rest/App"
 	Domain "example/rest/Domain"
-	Services "example/rest/Services"
+	"example/rest/Services"
 
 	"github.com/gorilla/mux"
 )
@@ -20,13 +20,13 @@ func main() {
 
 	var router = mux.NewRouter()
 
-	Services.NewCustomerService(Domain.NewCustomerRepositoryDB())
+	customerRepo := Domain.NewCustomerRepositoryDB()
+	customerServices := Services.NewCustomerService(customerRepo)
 
-	//ch := app.Customerhandlers{NewCustomerService(Domain.NewCustomerRepositoryDB())}
+	var customerHandlers = app.Customerhandlers{customerServices}
 
-	//router.HandleFunc("/customers", ch.GetAllCustomers).Methods("GET")
-
-	//router.HandleFunc("/customers/{id}", ch.FindById).Methods("GET")
+	router.HandleFunc("/customers", customerHandlers.GetAllCustomers).Methods("GET")
+	router.HandleFunc("/customers/{id}", customerHandlers.FindById).Methods("GET")
 
 	fmt.Println("Starting Web Server on port", webPort)
 	log.Fatal(http.ListenAndServe(webPort, router))

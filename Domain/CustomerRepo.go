@@ -21,7 +21,7 @@ type CustomerRepoDB struct {
 //By using the struct CustomerRepoDB (the real implementation)
 func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 
-	findall_sql := "SELECT * FROM customers"
+	findall_sql := "SELECT * FROM customers order by name"
 
 	rows, err := ch.db.Query(findall_sql)
 
@@ -33,7 +33,7 @@ func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 
 	for rows.Next() {
 		var customer Customer
-		err = rows.Scan(&customer.ID, &customer.Name, &customer.Address, &customer.DateofBirth, &customer.Status)
+		err = rows.Scan(&customer.ID, &customer.Name)
 		if err != nil {
 			log.Println("Error scanning rows" + err.Error())
 		}
@@ -45,9 +45,9 @@ func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 
 //We implement the interface CustomerRepository
 //By using the struct CustomerRepoDB (the real implementation)
-func (ch CustomerRepoDB) FindById(id string) (*Customer, *AppError) {
+func (ch CustomerRepoDB) FindById(ID string) (*Customer, *AppError) {
 	var customer Customer
-	err := ch.db.QueryRow("select * from customers where id=?", id).Scan(&customer.ID, &customer.Name, &customer.Address, &customer.DateofBirth, &customer.Status)
+	err := ch.db.QueryRow("select * from customers where ID=?", ID).Scan(&customer.ID, &customer.Name)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NotFoundError("customer not found")

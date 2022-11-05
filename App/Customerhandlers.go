@@ -13,11 +13,11 @@ import (
 //Customerhandlers in struct and we create the receiver functions (handlers)
 //Which contains the customer service
 type Customerhandlers struct {
-	service Services.CustomerService
+	Service Services.CustomerService
 }
 
 func (ch *Customerhandlers) GetAllCustomers(w http.ResponseWriter, r *http.Request) {
-	customers, err := ch.service.GetAllCustomer()
+	customers, err := ch.Service.GetAllCustomer()
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -27,7 +27,7 @@ func (ch *Customerhandlers) GetAllCustomers(w http.ResponseWriter, r *http.Reque
 
 func (ch *Customerhandlers) FindById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	customer, err := ch.service.FindCustomerById(params["id"])
+	customer, err := ch.Service.FindCustomerById(params["id"])
 	if err != nil {
 		writeResponse(w, err.Code, err.AsMessage())
 	} else {
