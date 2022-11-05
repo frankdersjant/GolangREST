@@ -6,5 +6,4 @@ import (
 
 type CustomerService interface {
 	GetAllCustomer() ([]Domain.Customer, error)
-	FindCustomerById(id string) (*Domain.Customer, *Domain.AppError)
 }
