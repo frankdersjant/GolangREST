@@ -1,4 +1,4 @@
-package CustomerServices
+package Services
 
 import (
 	"example/rest/Domain"
@@ -9,7 +9,7 @@ type CustomerService interface {
 	FindCustomerById(id string) (*Domain.Customer, *Domain.AppError)
 }
 
-// constructor function
+//constructor like function
 //whereby we pass in the repo (interface) as a dependency
 type DefaultCustomerService struct {
 	repo Domain.CustomerRepository

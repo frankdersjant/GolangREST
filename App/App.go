@@ -9,7 +9,4 @@ import (
 func Start() {
 	fmt.Println("Starting App in app package")
 
-	//declar handlrers
-
-	ch := han
 }

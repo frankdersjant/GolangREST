@@ -2,17 +2,27 @@ package app
 
 import (
 	"encoding/json"
-	CustomerServices "example/rest/Services"
+	Services "example/rest/Services"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-//Customerhandlers is a struct
+//We define the handlers by wrapping them in a struct
+//Customerhandlers in struct and we create the receiver functions (handlers)
 //Which contains the customer service
 type Customerhandlers struct {
-	service CustomerServices.CustomerService
+	service Services.CustomerService
+}
+
+func (ch *Customerhandlers) GetAllCustomers(w http.ResponseWriter, r *http.Request) {
+	customers, err := ch.service.GetAllCustomer()
+	if err != nil {
+		log.Println(err.Error())
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(customers)
 }
 
 func (ch *Customerhandlers) FindById(w http.ResponseWriter, r *http.Request) {
@@ -23,13 +33,4 @@ func (ch *Customerhandlers) FindById(w http.ResponseWriter, r *http.Request) {
 	} else {
 		writeResponse(w, http.StatusOK, customer)
 	}
-}
-
-func (ch *Customerhandlers) getAllCustomers(w http.ResponseWriter, r *http.Request) {
-	customers, err := ch.service.GetAllCustomer()
-	if err != nil {
-		log.Println(err.Error())
-	}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(customers)
 }
