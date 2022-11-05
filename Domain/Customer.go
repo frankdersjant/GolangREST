@@ -1,6 +1,9 @@
 package Domain
 
 type Customer struct {
-	Id   int
-	Name string
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Address     string `json:"address"`
+	DateofBirth string `json:"dateofbirth"`
+	Status      string `json:"status"`
 }

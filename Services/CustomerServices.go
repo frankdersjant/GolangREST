@@ -5,5 +5,6 @@ import (
 )
 
 type CustomerService interface {
-	GetAll() []Domain.Customer
+	GetAllCustomer() ([]Domain.Customer, error)
+	FindCustomerById(id string) *Domain.Customer
 }
