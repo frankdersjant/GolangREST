@@ -1,9 +1,11 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	app "example/rest/App"
 	"example/rest/Domain"
@@ -16,7 +18,28 @@ const webPort = ":8080"
 
 func main() {
 	fmt.Println("Starting App")
-	app.Start()
+	//app.Start()
+
+	fmt.Println("Connectiong to db")
+
+	conn, err := sql.Open("mysql", "root:change-me@tcp(localhost:3306)/usersdb")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	defer conn.Close()
+
+	for conn.Ping() != nil {
+		time.Sleep(1 * time.Second)
+	}
+
+	fmt.Println("Inserting user")
+
+	_, err = conn.Exec("INSERT INTO users (id, name, email) VALUES (12, 'John', 'john@john.nl')")
+
+	if err != nil {
+		panic(err.Error())
+	}
 
 	var router = mux.NewRouter()
 

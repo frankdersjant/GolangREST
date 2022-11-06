@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"log"
 	"time"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 //NOTE: PULIC MTHODS RE ALL CAPS
@@ -61,7 +63,7 @@ func (ch CustomerRepoDB) FindById(ID string) (*Customer, *AppError) {
 
 func NewCustomerRepositoryDB() CustomerRepoDB {
 
-	db, err := sql.Open("mysql", "root:password1@tcp(127.0.0.1:3306)/customers")
+	db, err := sql.Open("mysql", "root:change-me@tcp(localhost:3306)/customersdb")
 
 	if err != nil {
 		panic(err)
