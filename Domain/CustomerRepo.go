@@ -23,7 +23,7 @@ type CustomerRepoDB struct {
 //By using the struct CustomerRepoDB (the real implementation)
 func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 
-	findall_sql := "SELECT * FROM customers order by name"
+	findall_sql := "SELECT * FROM Customer"
 
 	rows, err := ch.db.Query(findall_sql)
 
@@ -49,7 +49,7 @@ func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 //By using the struct CustomerRepoDB (the real implementation)
 func (ch CustomerRepoDB) FindById(ID string) (*Customer, *AppError) {
 	var customer Customer
-	err := ch.db.QueryRow("select * from customers where ID=?", ID).Scan(&customer.ID, &customer.Name)
+	err := ch.db.QueryRow("SELECT * FROM Customer WHERE ID=?", ID).Scan(&customer.ID, &customer.Name)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, NotFoundError("customer not found")
