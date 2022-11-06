@@ -26,8 +26,13 @@ func main() {
 
 	var customerHandlers = app.Customerhandlers{customerServices}
 
-	router.HandleFunc("/customers", customerHandlers.GetAllCustomers).Methods("GET")
-	router.HandleFunc("/customers/{id}", customerHandlers.FindById).Methods("GET")
+	router.HandleFunc("/customers", customerHandlers.GetAllCustomers).
+		Methods("GET").
+		Name("GetAllCustomers")
+
+	router.HandleFunc("/customers/{id}", customerHandlers.FindById).
+		Methods("GET").
+		Name(" Customer")
 
 	fmt.Println("Starting Web Server on port", webPort)
 	log.Fatal(http.ListenAndServe(webPort, router))
