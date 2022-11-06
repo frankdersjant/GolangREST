@@ -63,11 +63,21 @@ func (ch CustomerRepoDB) FindById(ID string) (*Customer, *AppError) {
 
 func NewCustomerRepositoryDB() CustomerRepoDB {
 
-	db, err := sql.Open("mysql", "root:change-me@tcp(localhost:3306)/customersdb")
+	//conn, err := sql.Open("mysql", "root:change-me@tcp(localhost:3306)/customers")
+	db, err := sql.Open("mysql", "root:change-me@tcp(localhost:3306)/customers")
 
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
+
+	//seed method
+	//defer db.Close()
+
+	//_, err = db.Exec("INSERT INTO Customer (ID, name) VALUES (13, 'Frank')")
+
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	db.SetMaxOpenConns(100)
 	db.SetMaxIdleConns(10)
