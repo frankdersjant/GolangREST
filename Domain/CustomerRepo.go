@@ -8,23 +8,21 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//NOTE: PULIC MTHODS RE ALL CAPS
+// NOTE: PULIC METHODS RE ALL CAPS
 type CustomerRepository interface {
 	FindAll() ([]Customer, error)
 	FindById(id string) (*Customer, *AppError)
 }
 
-//We wrap the sql db stuff in  a struct CustomerRepoDB
+// We wrap the sql db stuff in  a struct CustomerRepoDB
 type CustomerRepoDB struct {
 	db *sql.DB
 }
 
-//We implement the interface CustomerRepository
-//By using the struct CustomerRepoDB (the real implementation)
+// We implement the interface CustomerRepository
+// By using the struct CustomerRepoDB (the real implementation)
 func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
-
 	findall_sql := "SELECT * FROM Customer"
-
 	rows, err := ch.db.Query(findall_sql)
 
 	if err != nil {
@@ -32,7 +30,6 @@ func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 	}
 
 	customers := make([]Customer, 0)
-
 	for rows.Next() {
 		var customer Customer
 		err = rows.Scan(&customer.ID, &customer.Name)
@@ -41,12 +38,11 @@ func (ch CustomerRepoDB) FindAll() ([]Customer, error) {
 		}
 		customers = append(customers, customer)
 	}
-
 	return customers, nil
 }
 
-//We implement the interface CustomerRepository
-//By using the struct CustomerRepoDB (the real implementation)
+// We implement the interface CustomerRepository
+// By using the struct CustomerRepoDB (the real implementation)
 func (ch CustomerRepoDB) FindById(ID string) (*Customer, *AppError) {
 	var customer Customer
 	err := ch.db.QueryRow("SELECT * FROM Customer WHERE ID=?", ID).Scan(&customer.ID, &customer.Name)
