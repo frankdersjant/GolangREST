@@ -17,8 +17,6 @@ const webPort = ":8080"
 func main() {
 	fmt.Println("Starting App")
 
-	//conn, err := sql.Open("mysql", "root:change-me@tcp(localhost:3306)/customers")
-
 	var router = mux.NewRouter()
 
 	customerRepo := Domain.NewCustomerRepositoryDB()
